@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.vishalag53.marsrealestate.R
 import com.vishalag53.marsrealestate.databinding.FragmentOverviewBinding
+import com.vishalag53.marsrealestate.databinding.GridViewItemBinding
 
 @Suppress("DEPRECATION")
 class OverviewFragment : Fragment() {
@@ -23,7 +24,7 @@ class OverviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding = FragmentOverviewBinding.inflate(inflater)
+        val binding = GridViewItemBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
