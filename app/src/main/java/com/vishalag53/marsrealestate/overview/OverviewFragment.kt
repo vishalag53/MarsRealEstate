@@ -24,10 +24,12 @@ class OverviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding = GridViewItemBinding.inflate(inflater)
+        val binding = FragmentOverviewBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
+
+        binding.photoGrid.adapter = PhotoGridAdapters()
 
         setHasOptionsMenu(true)
         return binding.root
