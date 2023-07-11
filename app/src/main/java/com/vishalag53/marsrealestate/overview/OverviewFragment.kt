@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.vishalag53.marsrealestate.R
 import com.vishalag53.marsrealestate.databinding.FragmentOverviewBinding
 import com.vishalag53.marsrealestate.databinding.GridViewItemBinding
+import com.vishalag53.marsrealestate.network.MarsApiFilter
 
 @Suppress("DEPRECATION")
 class OverviewFragment : Fragment() {
@@ -44,6 +46,17 @@ class OverviewFragment : Fragment() {
 
         setHasOptionsMenu(true)
         return binding.root
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        viewModel.updateFilter(
+            when (item.itemId){
+                R.id.show_rent_menu -> MarsApiFilter.SHOW_RENT
+                R.id.show_buy_menu -> MarsApiFilter.SHOW_BUY
+                else -> MarsApiFilter.SHOW_ALL
+            }
+        )
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
