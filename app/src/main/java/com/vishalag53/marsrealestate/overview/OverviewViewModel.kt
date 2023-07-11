@@ -1,5 +1,6 @@
 package com.vishalag53.marsrealestate.overview
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,6 +22,10 @@ class OverviewViewModel : ViewModel() {
     val properties: LiveData<List<MarsProperty>>
         get() = _properties
 
+    private val _navigateToSelectedProperty = MutableLiveData<MarsProperty>()
+    val navigateToSelectedProperty: LiveData<MarsProperty>
+        get() = _navigateToSelectedProperty
+
     init {
         getMarsRealEstateProperties()
     }
@@ -40,6 +45,15 @@ class OverviewViewModel : ViewModel() {
             }
 
         }
+    }
+
+    fun displayPropertyDetails(marsProperty: MarsProperty){
+        _navigateToSelectedProperty.value = marsProperty
+    }
+
+    @SuppressLint("NullSafeMutableLiveData")
+    fun displayPropertyDetailsComplete(){
+        _navigateToSelectedProperty.value = null
     }
 
 }

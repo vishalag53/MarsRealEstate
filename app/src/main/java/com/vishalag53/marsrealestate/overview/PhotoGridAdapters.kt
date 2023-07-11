@@ -1,6 +1,5 @@
 package com.vishalag53.marsrealestate.overview
 
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vishalag53.marsrealestate.databinding.GridViewItemBinding
 import com.vishalag53.marsrealestate.network.MarsProperty
 
-class PhotoGridAdapters : ListAdapter<MarsProperty, PhotoGridAdapters.MarsPropertyViewolder>(DiffCallback){
-    class MarsPropertyViewolder(private var binding: GridViewItemBinding): RecyclerView.ViewHolder(binding.root) {
+class PhotoGridAdapters(val onClickListener: OnClickListener) : ListAdapter<MarsProperty, PhotoGridAdapters.MarsPropertyViewHolder>(DiffCallback){
+    class MarsPropertyViewHolder(private var binding: GridViewItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(marsProperty: MarsProperty){
             binding.property = marsProperty
             binding.executePendingBindings()
@@ -30,13 +29,20 @@ class PhotoGridAdapters : ListAdapter<MarsProperty, PhotoGridAdapters.MarsProper
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
-    ): PhotoGridAdapters.MarsPropertyViewolder {
-        return MarsPropertyViewolder(GridViewItemBinding.inflate(LayoutInflater.from(parent.context)))
+    ): PhotoGridAdapters.MarsPropertyViewHolder {
+        return MarsPropertyViewHolder(GridViewItemBinding.inflate(LayoutInflater.from(parent.context)))
     }
 
-    override fun onBindViewHolder(holder: PhotoGridAdapters.MarsPropertyViewolder, position: Int) {
+    override fun onBindViewHolder(holder: PhotoGridAdapters.MarsPropertyViewHolder, position: Int) {
         val marsProperty = getItem(position)
+        holder.itemView.setOnClickListener{
+            onClickListener.onClick(marsProperty)
+        }
         holder.bind(marsProperty)
+    }
+
+    class OnClickListener(val clickListener: (marsProperty:MarsProperty) ->  Unit){
+        fun onClick(marsProperty: MarsProperty) = clickListener(marsProperty)
     }
 
 }

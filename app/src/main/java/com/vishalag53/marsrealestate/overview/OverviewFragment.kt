@@ -7,7 +7,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.vishalag53.marsrealestate.R
 import com.vishalag53.marsrealestate.databinding.FragmentOverviewBinding
 import com.vishalag53.marsrealestate.databinding.GridViewItemBinding
@@ -29,7 +31,16 @@ class OverviewFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        binding.photoGrid.adapter = PhotoGridAdapters()
+        binding.photoGrid.adapter = PhotoGridAdapters(PhotoGridAdapters.OnClickListener{
+            viewModel.displayPropertyDetails(it)
+        })
+
+        viewModel.navigateToSelectedProperty.observe(viewLifecycleOwner, Observer {
+            if( null != it){
+                this.findNavController().navigate(OverviewFragmentDirections.actionShowDetail(it))
+                viewModel.displayPropertyDetailsComplete()
+            }
+        })
 
         setHasOptionsMenu(true)
         return binding.root
